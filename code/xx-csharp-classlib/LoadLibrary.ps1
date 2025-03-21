@@ -1,13 +1,12 @@
-function Import-Assembly {
-    param(
-        [Parameter(Mandatory)]
-        [string]$Path
-    )
-    [System.Reflection.Assembly]::LoadFrom((Resolve-Path $Path))
-}
+. ./Import-Assembly.ps1
 
 Invoke-Command {dotnet build}
 
 Import-Assembly -Path "./bin/Debug/net9.0/SampleLibrary.dll"
 
-[SampleLibrary.ADHealthCheckBuilder]::new()
+if ($isWindows)
+{
+    [SampleLibrary.ADHealthCheckBuilder]
+} else {
+    [SampleLibrary.ProcessLister]::ListProcesses()
+}
