@@ -22,6 +22,7 @@ public class ADHealthCheckBuilder
             throw new PlatformNotSupportedException("Active Directory health checks are only supported on Windows.");
         }
         
+        Id = Guid.NewGuid();
         ADForest = Forest.GetCurrentForest();
         CreatedAt = DateTimeOffset.UtcNow;
         UpdatedAt = CreatedAt;

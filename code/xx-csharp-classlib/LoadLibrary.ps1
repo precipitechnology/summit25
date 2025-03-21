@@ -6,7 +6,7 @@ Import-Assembly -Path "./bin/Debug/net9.0/SampleLibrary.dll"
 
 if ($isWindows)
 {
-    [SampleLibrary.ADHealthCheckBuilder]
+    [SampleLibrary.ADHealthCheckBuilder]::new()
 } else {
     [SampleLibrary.ProcessLister]::ListProcesses()
 }
