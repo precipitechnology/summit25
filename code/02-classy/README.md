@@ -77,3 +77,56 @@ public string Greet()
 
 note the `()` at the end of the method, and the introduction of a type `string`, we also are not able to name the method the same as the encapsulating class (Greeting) even if we wanted to, and we can't call constructors anything other than the encapsulating class name, easy so far? 😁
 
+## Cli Harness
+
+Lets start to demonstrate the usefulness of a 'library' that by itself doesn't do anything, but wrapping it in a quick CLI and calling it
+
+```pwsh
+dotnet new console -o ./cli -n ClassyCli
+Set-location ./cli
+```
+
+Lets now add a reference to the dll we generated in our library
+the DLL should be located relative, there is not a cli command to do this to a raw DLL like this, so edit your `.csproj` file and add the `<ItemGroup>` so it looks like the below
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Classy">
+      <HintPath>..\lib\bin\Debug\net9.0\Classy.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
+```
+
+
+Open it up in your favorite editor and lets adjust the Program.cs
+
+```csharp
+using Classy;
+
+var output = new Classy.Greeting();
+
+Console.WriteLine(output);
+```
+
+When you run that, you may notice that you dont get the expected output
+Thas because you are asking to return the object itself
+
+if we tweak that line to say
+
+```csharp
+Console.WriteLine(output.Greet());
+```
+
+and re-run `dotnet run` we should now see the text output, exactly how we defined it in the library
+
