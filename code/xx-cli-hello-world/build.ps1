@@ -1,0 +1,1 @@
+invoke-command {dotnet build -c Release -}
