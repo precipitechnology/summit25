@@ -130,3 +130,82 @@ Console.WriteLine(output.Greet());
 
 and re-run `dotnet run` we should now see the text output, exactly how we defined it in the library
 
+## Bonus: Interfaces
+
+During the live delivery of this content we refactored and introduced the concept of Interfaces with the `IGreeting` interface, adjusting our `Greeting` and creating a `Greeting2` class
+
+```csharp
+namespace Classy;
+
+public interface IGreeting
+{
+    public string Salutation { get; set; }
+
+    public string Greet();
+}
+```
+
+This interface can be 'implemented' via our classes, and the compiler will then check for compliance to the contract defined in the interface
+
+if we change our `Greeting` class to implement `IGreeting` like so
+
+```csharp
+public class Greeting : IGreeting
+{
+  //...
+}
+```
+
+You should alreadyd be successfully implementing the contract
+
+but as we create a new class `Greeting2`
+
+```csharp
+public class Greeting2 : IGreeting
+{
+
+}
+```
+
+you will see errors informing you that you are not honoring the contract, you need to implement a `Salutation` Property and a `Greet()` method that returns a `string`
+
+Lets do that
+
+```csharp
+namespace Classy;
+
+public class Greeting2 : IGreeting
+{
+    public string Salutation { get; set; } = "Hey";
+    public string Audience { get; set; }
+
+    public Greeting2()
+    {
+    }
+    public Greeting2(string aud)
+    {
+        Audience = aud;
+    }
+    
+    public Greeting2(string sal, string aud)
+    {
+        Salutation = sal;
+        Audience = aud;
+    }
+
+    public string Greet()
+    {
+        if (!string.IsNullOrWhiteSpace(this.Audience))
+        {
+            return string.Format("{0}, {1}", this.Salutation, this.Audience);
+        }
+        return this.Salutation;
+    }
+}
+```
+
+In this instance we are doing the same as our original `Greeting` class but changing the default `Salutation` to `Hey`
+
+This should now build successfully with `dotnet build`
+
+Update the cli project to utilize `Greeting2`, what do you expect to see? 

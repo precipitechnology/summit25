@@ -1,21 +1,19 @@
-﻿namespace Classy;
+namespace Classy;
 
-public class Greeting
+public class Greeting2 : IGreeting
 {
-    public string Salutation {get; set;} = "Hello";
-    public string Audience {get; set;}
+    public string Salutation { get; set; } = "Hey";
+    public string Audience { get; set; }
 
-
-    public Greeting()
+    public Greeting2()
     {
     }
-
-    public Greeting(string aud)
+    public Greeting2(string aud)
     {
         Audience = aud;
     }
     
-    public Greeting(string sal, string aud)
+    public Greeting2(string sal, string aud)
     {
         Salutation = sal;
         Audience = aud;
